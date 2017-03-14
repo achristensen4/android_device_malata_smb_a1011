@@ -19,7 +19,7 @@ on fs
 ## DISABLE CGROUPS AGAIN
     umount /dev/cpuctl
 
-    mount ext3 /dev/block/mmcblk3p2 /data nosuid nodev noatime data=ordered wait
+    mount ext3 /dev/block/mmcblk3p2 /data wait nosuid nodev noatime data=ordered
     chown system system /data
     chmod 0771 /data
 
@@ -47,7 +47,7 @@ on boot
 
 # NvLogger settings for NvMM
     setprop persist.tegra.nvlog.level 4
-#   setprop persist.tegra.nvlog.14.level 5
+    setprop persist.tegra.nvlog.14.level 5
 
 service nvrm_daemon /system/bin/nvrm_daemon
     user root
@@ -58,13 +58,11 @@ service wpa_supplicant /system/bin/wpa_supplicant -D wext -i wlan0 -c/data/misc/
     user root
     group wifi
     oneshot
-    disabled
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -dd -f /system/etc/dhcpcd/dhcpcd.conf wlan0
     user root
     group dhcp inet
     oneshot
-    disabled
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
@@ -81,6 +79,3 @@ service hciattach /system/bin/bc_hciattach -n -t 100 -s 115200 ttyHS2 bcm4329 92
     user bluetooth
     group system bluetooth net_bt_admin misc
     oneshot
-    disabled
-
-
